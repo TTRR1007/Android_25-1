@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BCSD_Android_2025-1</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_in_title">sign in title</string>
+    <string name="user_id">ID</string>
+    <string name="user_password">PASSWORD</string>
+    <string name="btn_sign_in">Sign in</string>
+    <string name="btn_sign_in_button">sign in btn</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="signup">Sign Up</string>
+    <string name="google_logo">google sign in</string>
+    <string name="naver_logo">google sign in</string>
+    <string name="kakao_logo">kakao sign in</string>
+</resources>
