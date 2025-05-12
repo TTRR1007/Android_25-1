@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <FrameLayout
+        android:id="@+id/random_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 
     <TextView
         android:id="@+id/tv_main_num"
@@ -43,4 +48,5 @@
         app:layout_constraintStart_toEndOf="@id/btn_main_count"
         app:layout_constraintTop_toTopOf="@id/btn_main_count"
         app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
