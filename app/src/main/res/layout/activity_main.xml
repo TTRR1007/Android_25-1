@@ -1,52 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:context=".MainActivity">
 
-    <FrameLayout
-        android:id="@+id/random_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <EditText
+        android:id="@+id/et_main_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="@string/et_main_input"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.7"
+        android:maxWidth="488dp"/>
 
-
-    <TextView
-        android:id="@+id/tv_main_num"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_main_plus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tv_main_num"
-        android:textSize="50sp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/et_main_input"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
-    <Button
-        android:id="@+id/btn_main_toast"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_main_toast"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btn_main_count"
-        app:layout_constraintTop_toTopOf="@id/btn_main_count" />
-
-    <Button
-        android:id="@+id/btn_main_count"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_main_count"
-        app:layout_constraintStart_toEndOf="@id/btn_main_toast"
-        app:layout_constraintEnd_toStartOf="@id/btn_main_random"
-        app:layout_constraintTop_toBottomOf="@id/tv_main_num"
-        android:layout_marginTop="180dp"/>
-
-    <Button
-        android:id="@+id/btn_main_random"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_main_random"
-        app:layout_constraintStart_toEndOf="@id/btn_main_count"
-        app:layout_constraintTop_toTopOf="@id/btn_main_count"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

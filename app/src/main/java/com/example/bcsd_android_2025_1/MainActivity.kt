@@ -1,86 +1,81 @@
 package com.example.bcsd_android_2025_1
 
-//import androidx.activity.result.contract.ActivityResultContracts
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.EditText
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: MyAdapter
+    private val itemList = mutableListOf<String>()
 
-    private var countData = 0
-
-
-//    private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-//            result ->
-//        if (result.resultCode == RESULT_OK) {
-//            val data = result.data
-//            val randomNum = data?.getIntExtra("randomNum",-1) ?: -1
-//
-//            val tvResult: TextView = findViewById(R.id.tv_main_num)
-//            tvResult.text = randomNum.toString()
-//
-//            countData = randomNum
-//
-//        }
-//    }
-
-    @SuppressLint("CommitTransaction")
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        val tvResult: TextView = findViewById(R.id.tv_main_num)
+        val nameInput = findViewById<EditText>(R.id.et_main_input)
+        val buttonPlus = findViewById<FloatingActionButton>(R.id.fab_main_plus)
+        recyclerView = findViewById(R.id.rv_main)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val btnCount: Button = findViewById(R.id.btn_main_count)
+        adapter = MyAdapter(itemList,
+            onDelete = { position -> showDeleteDialog(position) },
+            onEdit = { position -> showEditDialog(position) }
+        )
 
+        recyclerView.adapter = adapter
 
-        val btnToast: Button = findViewById(R.id.btn_main_toast)
-
-        btnToast.setOnClickListener {
-
-            val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
-                .setPositiveButton("Positive"){dialog,_ ->
-                    countData = 0
-                    tvResult.text = countData.toString()
-                    dialog.dismiss()
-                }
-                .setNeutralButton("Neutral"){dialog,_->
-                    Toast.makeText(this@MainActivity, R.string.btn_main_toast, Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
-                }
-                .setNegativeButton("Negative"){dialog,_->
-                    dialog.dismiss()
-                }
-                .create()
-            dialog.show()
-
+        buttonPlus.setOnClickListener {
+            val text = nameInput.text.toString()
+            if (text.isNotBlank()) {
+                itemList.add(text)
+                adapter.notifyItemInserted(itemList.size - 1)
+                nameInput.text.clear()
+            }
         }
+    }
 
+    private fun showDeleteDialog(position: Int) {
+        AlertDialog.Builder(this)
+            .setTitle("이름 목록 삭제하기")
+            .setMessage("이름 목록을 삭제해보자.")
+            .setPositiveButton("삭제") { dialog, _ ->
+                itemList.removeAt(position)
+                adapter.notifyItemRemoved(position)
+                dialog.dismiss()
+            }
+            .setNegativeButton("취소") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
 
+    private fun showEditDialog(position: Int) {
+        val editText = EditText(this)
+        editText.setText(itemList[position])
 
-        btnCount.setOnClickListener {
-            countData += 1
-            tvResult.text = countData.toString()
-        }
-
-        val btnRandom: Button = findViewById(R.id.btn_main_random)
-
-        btnRandom.setOnClickListener {
-            val fragment = RandomFragment.newInstance(countData)
-
-
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.random_fragment, fragment)
-                .addToBackStack(null)
-                .commit()
-        }
-
-
-
+        AlertDialog.Builder(this)
+            .setTitle("수정할 이름을 입력하세요")
+            .setView(editText)
+            .setPositiveButton("확인") { dialog, _ ->
+                val newText = editText.text.toString()
+                if (newText.isNotBlank()) {
+                    itemList[position] = newText
+                    adapter.notifyItemChanged(position)
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton("취소") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 }
